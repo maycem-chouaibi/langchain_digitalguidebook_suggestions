@@ -1,11 +1,13 @@
 from flask import Flask
 from langchainAgent.tools import google_search, create_model, create_agent
+from flask import request
 
 app = Flask(__name__)
 
-@app.route('/guideBookData', methods=['GET'])
+@app.route('/guideBookData', methods=['POST'])
 def guideBookData():
+    prompt = request.json['prompt']
     google_search_tool = google_search("Google Search", "Useful for searching stuff on the web.")
     model = create_model("llama3-70b-8192", 0, 2, 1024)
     tools = [google_search_tool]
-    return create_agent(model, tools)
+    return create_agent(model, tools, prompt)
