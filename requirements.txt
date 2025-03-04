@@ -1,0 +1,8 @@
+Flask
+langchain-google-community
+langchain-core
+langchain-groq
+langchain
+langgraph
+langchain-community
+python-dotenv
