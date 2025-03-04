@@ -31,15 +31,18 @@ def create_model(name: str, temperature: int, max_retries: int, max_tokens: int)
     return model
 
 def create_agent(model, tools, prompt):
-    agent_executor = create_react_agent(model, tools)
-    
-    response = agent_executor.invoke(
-    {   
-    "messages": [   
-        SystemMessage(content=SYSTEM_PROMPT_1),
-        HumanMessage(content=prompt),
-        SystemMessage(content=SYSTEM_PROMPT_2),
-    ],},
-    ) 
-    results:json = response["messages"][-1].content
-    return results
+    try: 
+        agent_executor = create_react_agent(model, tools)
+        
+        response = agent_executor.invoke(
+        {   
+        "messages": [   
+            SystemMessage(content=SYSTEM_PROMPT_1),
+            HumanMessage(content=prompt),
+            SystemMessage(content=SYSTEM_PROMPT_2),
+        ],},
+        ) 
+        results:json = response["messages"][-1].content
+        return results
+    except Exception as e:
+        return {"error": str(e)}
