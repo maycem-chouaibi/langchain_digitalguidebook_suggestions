@@ -54,10 +54,11 @@ SYSTEM_PROMPT_1 = """You are an enthusiastic local tour guide with insider knowl
                                 ]
                                 }
                                 ```
+                                You MUST respond in the user's preferred language.
                      """
 
 SYSTEM_PROMPT_2 = "Remember to only respond in JSON format. No explanations, no text outside the JSON structure."
 
-def generate_human_prompt(age: int, destination: str, interests: list, gender: str) -> str:
+def generate_human_prompt(age: int, destination: str, interests: list, gender: str, language: str) -> str:
     interests_str = ', '.join(interests)
-    return f"I am a {age} year old {gender} visiting {destination}. I am interested in {interests_str}."
+    return f"I am a {age} year old {gender} visiting {destination}. I am interested in {interests_str}. My preferred communication language is {language}."
