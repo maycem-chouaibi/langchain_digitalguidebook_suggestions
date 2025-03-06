@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from langchainAgent.tools import google_search, create_model, create_agent
+from langchainAgent.tools import google_search, create_model, create_agent, google_places
 from pydantic import BaseModel, ValidationError, Field
 import logging
 from typing import List
+from ocr.processIDs import process_ids
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,10 +31,10 @@ def guideBookData():
             raise ValidationError("Request body is required")
         
         validated_data = GuideBookRequest(**request_data)
-        
+        google_places_tool = google_places("Google Places", "Useful for searching places, restaurants, and activities online.")
         google_search_tool = google_search("Google Search", "Useful for searching stuff on the web.")
         model = create_model("llama3-70b-8192", 0, 2, 1024)
-        tools = [google_search_tool]
+        tools = [google_places_tool, google_search_tool]
         
         results = create_agent(
                     model, 
@@ -53,6 +54,18 @@ def guideBookData():
         logger.error(f"Internal server error: {e}")
         return jsonify(ErrorResponse(error=str(e)).model_dump()), 500
 
-    
+@app.route('/processIDs', methods=['POST'])
+def processIDs():
+    try:
+        file_path = request.args.get("file_path")
+        results = process_ids(file_path)
+        return results
+    except ValidationError as e:
+        logger.error(f"Validation error: {e}")
+        return jsonify(ErrorResponse(error=str(e)).model_dump()), 400
+    except Exception as e:
+        logger.error(f"Internal server error: {e}")
+        return jsonify(ErrorResponse(error=str(e)).model_dump()), 500
+
 if __name__ == '__main__':
     app.run(debug=True)

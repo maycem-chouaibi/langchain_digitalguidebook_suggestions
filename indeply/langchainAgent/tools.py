@@ -1,4 +1,4 @@
-from langchain_google_community import GoogleSearchAPIWrapper
+from langchain_google_community import GoogleSearchAPIWrapper, GooglePlacesAPIWrapper
 from langchain_core.tools import Tool
 from langchain_core.messages import HumanMessage
 from langchain_groq import ChatGroq
@@ -20,10 +20,24 @@ load_dotenv()
 GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
 GOOGLE_SEARCH_CSE_ID = os.getenv("GOOGLE_SEARCH_CSE_ID")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GPLACES_API_KEY = os.getenv("GPLACES_API_KEY")
 
 if not all([GOOGLE_SEARCH_API_KEY, GOOGLE_SEARCH_CSE_ID, GROQ_API_KEY]):
     raise ValueError("Missing required environment variables")
 
+def google_places(name: str, description: str) -> Tool:
+    try:
+        search = GooglePlacesAPIWrapper(gplaces_api_key=GPLACES_API_KEY)
+
+        google_places_tool = Tool(
+            name=name,
+            description=description,
+            func=search.run
+        )
+        return google_places_tool
+    except Exception as e:
+        logger.error(f"Error creating Google Places tool: {e}")
+        raise
 
 def google_search(name: str, description: str) -> Tool:
     try:
