@@ -1,42 +1,88 @@
 # Indeply Project
 
-This project is a Flask application that uses LangChain to create a local tour guide agent. The agent provides recommendations for activities based on user preferences.
+A Flask-based AI tour guide application that provides personalized travel recommendations using LangChain and Groq.
+
+## Features
+
+- Personalized activity recommendations based on user preferences
+- Multi-language support
+- Integration with Google Search for up-to-date information
+- Location-aware suggestions
+- Accessibility considerations
 
 ## Project Structure
 
+indeply/ ├── app.py # Main Flask application ├── langchainAgent/ │ ├── init.py │ ├── models.py # Pydantic models │ ├── prompts.py # System prompts │ └── tools.py # LangChain tools and agent └── requirements.txt
+
 ## Setup
 
-1. Clone the repository.
-2. Create a virtual environment and activate it:
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-3. Install the dependencies:
-   ```sh
-   pip install -r requirements.txt
-   ```
-4. Create a `.env` file in the `indeply` directory with the following content:
-   ```env
-   LANGSMITH_API_KEY="your_langsmith_api_key"
-   LANGSMITH_TRACING="true"
-   GOOGLE_SEARCH_API_KEY="your_google_search_api_key"
-   GOOGLE_SEARCH_CSE_ID="your_google_search_cse_id"
+1. Clone the repository
+2. Create and activate virtual environment:
+
+```bash
+python -m venv venv
+.\venv\Scripts\activate  # Windows
+```
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Creat .env file:
+   GOOGLE_SEARCH_API_KEY="your_google_api_key"
+   GOOGLE_SEARCH_CSE_ID="your_google_cse_id"
    GROQ_API_KEY="your_groq_api_key"
-   ```
-5. Run the Flask application:
-   ```sh
-   flask run
-   ```
 
-## Usage
+5. Run the app:
 
-The application provides a single endpoint:
+```bash
+flask run
+```
 
-- `GET /guideBookData`: Returns JSON recommendations for activities based on user preferences.
+## API Usage:
 
-## Development
+### POST /guideBookData
 
-To debug the application using Visual Studio Code, use the provided configuration in [launch.json](http://_vscodecontentref_/4).
+Create personalized travel recommendations.
 
-## License
+Request body example:
+
+```bash
+{
+    "age": 25,
+    "destination": "Paris",
+    "interests": ["art", "food"],
+    "gender": "female",
+    "language": "en"
+}
+```
+
+Expected response format:
+
+```bash
+{
+    "status": "success",
+    "data": {
+        "activities": [
+            {
+                "title": "Activity name",
+                "category": "Category type",
+                "description": "Brief description",
+                "location": {
+                    "address": "Full address",
+                    "lat": 0.0,
+                    "long": 0.0
+                },
+                "duration": "Duration",
+                "best_time": "Best time to visit",
+                "price_range": 1-5,
+                "rating": 1-5,
+                "accessibility": "Accessibility info",
+                "link": "URL"
+            }
+        ]
+    }
+}
+```
