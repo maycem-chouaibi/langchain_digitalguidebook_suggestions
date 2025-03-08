@@ -1,6 +1,8 @@
 # Indeply Project
 
 A Flask-based AI tour guide application that provides personalized travel recommendations using LangChain and Groq.
+This project uses PostgreSQL for the DB.
+This project is UV friendly.
 
 ## Features
 
@@ -9,10 +11,6 @@ A Flask-based AI tour guide application that provides personalized travel recomm
 - Integration with Google Search for up-to-date information
 - Location-aware suggestions
 - Accessibility considerations
-
-## Project Structure
-
-indeply/ ├── app.py # Main Flask application ├── langchainAgent/ │ ├── init.py │ ├── models.py # Pydantic models │ ├── prompts.py # System prompts │ └── tools.py # LangChain tools and agent └── requirements.txt
 
 ## Setup
 
@@ -31,9 +29,27 @@ pip install -r requirements.txt
 ```
 
 4. Creat .env file:
-   GOOGLE_SEARCH_API_KEY="your_google_api_key"
-   GOOGLE_SEARCH_CSE_ID="your_google_cse_id"
-   GROQ_API_KEY="your_groq_api_key"
+   LANGSMITH_API_KEY="your_values"
+   LANGSMITH_TRACING="your_values"
+   LANGSMITH_ENDPOINT="your_values"
+   LANGSMITH_PROJECT="your_values"
+   GOOGLE_SEARCH_API_KEY="your_values"
+   GOOGLE_SEARCH_CSE_ID="your_values"
+   GROQ_API_KEY="your_values"
+   TOGETHER_API_KEY="your_values"
+   TOGETHER_CLIENT_ID="your_values"
+
+   # HUGGING_FACE_TOKEN="your_values"
+
+   GPLACES_API_KEY="your_values"
+   GOOGLE_RPUTES_API_KEY="your_values"
+   OPENAI_API_KEY="your_values"
+   POSTGRES_PWD="your_values"
+   POSTGRES_DB_NAME="your_values"
+   POSTGRES_USERNAME="your_values"
+   POSTGRES_PORT = your_values
+   POSTGRES_HOST="your_values"
+   POSTGRES_DRIVER="your_values"
 
 5. Run the app:
 
