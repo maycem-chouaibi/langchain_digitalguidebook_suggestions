@@ -28,7 +28,8 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-4. Creat .env file:
+4. Create .env file:
+   ```bash
    LANGSMITH_API_KEY="your_values"
    LANGSMITH_TRACING="your_values"
    LANGSMITH_ENDPOINT="your_values"
@@ -38,9 +39,10 @@ pip install -r requirements.txt
    GROQ_API_KEY="your_values"
    TOGETHER_API_KEY="your_values"
    TOGETHER_CLIENT_ID="your_values"
+   ```
 
    # HUGGING_FACE_TOKEN="your_values"
-
+   ```bash
    GPLACES_API_KEY="your_values"
    GOOGLE_RPUTES_API_KEY="your_values"
    OPENAI_API_KEY="your_values"
@@ -50,8 +52,9 @@ pip install -r requirements.txt
    POSTGRES_PORT = your_values
    POSTGRES_HOST="your_values"
    POSTGRES_DRIVER="your_values"
+   ```
 
-5. Run the app:
+6. Run the app:
 
 ```bash
 flask run
