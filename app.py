@@ -5,6 +5,10 @@ from pydantic import BaseModel, ValidationError, Field
 import logging
 from typing import List
 from ocr.processIDs import process_ids
+from db.crud import create_record
+from db.models import User
+from datetime import date
+import json
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -22,6 +26,10 @@ class GuideBookRequest(BaseModel):
 class ErrorResponse(BaseModel):
     error: str
     status: int = 500
+
+class SuccessResponse(BaseModel):
+    response: dict
+    status: int = 200
 
 @app.route('/guideBookData', methods=['POST'])
 def guideBookData():
@@ -46,7 +54,7 @@ def guideBookData():
                     validated_data.language
                 )      
           
-        return jsonify(results)
+        return (SuccessResponse(response=results).model_dump()), 200
     except ValidationError as e:
         logger.error(f"Validation error: {e}")
         return jsonify(ErrorResponse(error=str(e)).model_dump()), 400
@@ -57,15 +65,51 @@ def guideBookData():
 @app.route('/processIDs', methods=['POST'])
 def processIDs():
     try:
-        file_path = request.args.get("file_path")
+        file_path = request.get_json().get('file_path')
         results = process_ids(file_path)
-        return results
+        return (SuccessResponse(response=json.loads(results)).model_dump()), 200
     except ValidationError as e:
         logger.error(f"Validation error: {e}")
         return jsonify(ErrorResponse(error=str(e)).model_dump()), 400
     except Exception as e:
         logger.error(f"Internal server error: {e}")
         return jsonify(ErrorResponse(error=str(e)).model_dump()), 500
+
+class UserRequest(BaseModel):
+    dob: date = Field(..., gt=0, description="Age must be positive")
+    first_name: str = Field(..., min_length=1)
+    last_name: str = Field(..., min_length=1)
+    email: str = Field(..., pattern=r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$", description="Must be a valid email address.")
+    gender: str = Field(..., pattern="^(male|female|other)$")
+    phone: str = Field(..., min_length=1)
+    phone_ext: str = Field(..., min_length=1)
+
+@app.route('/users/add', methods=['POST'])
+def addUser():
+    try:
+        request_data = request.get_json()
+        if not request_data:
+            raise ValidationError("Request body is required")
+        
+        validated_data = UserRequest(**request_data)     
+        
+        results = create_record(User, 
+                        dob=validated_data.dob,
+                        first_name=validated_data.first_name,
+                        last_name=validated_data.last_name,
+                        email=validated_data.email,
+                        gender=validated_data.gender,
+                        phone=validated_data.phone,
+                        phone_ext=validated_data.phone_ext)
+      
+        return jsonify(SuccessResponse(response={"results": results.id}).model_dump()), 200
+    except ValidationError as e:
+        logger.error(f"Validation error: {e}")
+        return jsonify(ErrorResponse(error=str(e)).model_dump()), 400
+    except Exception as e:
+        logger.error(f"Internal server error: {e}")
+        return jsonify(ErrorResponse(error=str(e)).model_dump()), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,6 +1,6 @@
 from typing import TypeVar, Type, List, Optional
 from sqlalchemy.orm import Session
-from connect import create_session
+from .connect import create_session
 from sqlalchemy.orm import DeclarativeMeta
 
 T = TypeVar("T", bound=DeclarativeMeta)

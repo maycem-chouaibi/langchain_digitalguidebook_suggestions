@@ -40,7 +40,7 @@ def create_session():
         return session
     
     except Exception as e:
-        raise ConnectionError("Failed to create session: {e}")
+        raise ConnectionError(f"Failed to create session: {e}")
     
 def close_connection(engine):
     Session = scoped_session(sessionmaker(bind=engine))
