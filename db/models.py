@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import declarative_base
 from .connect import get_engine
+from datetime import date
 
 Base = declarative_base()
 
@@ -13,8 +14,20 @@ class User(Base):
     phone = Column(String, nullable=False)
     phone_ext = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
-    dob = Column(String, nullable=False)
+    dob = Column(Date, nullable=False)
     gender = Column(String, nullable=False)
+
+    def to_dict(self):
+            return {
+                "id": self.id,
+                "first_name": self.first_name,
+                "last_name": self.last_name,
+                "phone": self.phone,
+                "phone_ext": self.phone_ext,
+                "email": self.email,
+                "dob": self.dob,
+                "gender": self.gender
+        }
 
 def init_db():
     engine = get_engine()

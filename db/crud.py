@@ -37,7 +37,7 @@ def delete_record(model: Type[T], record_id: int) -> bool:
     with create_session() as session:
         record = session.get(model, record_id)
         if not record:
-            return False
+            return None
         session.delete(record)
         session.commit()
-        return True
+        return record
