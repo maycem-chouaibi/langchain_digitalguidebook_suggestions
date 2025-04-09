@@ -29,6 +29,7 @@ pip install -r requirements.txt
 ```
 
 4. Create .env file:
+
    ```bash
    LANGSMITH_API_KEY="your_values"
    LANGSMITH_TRACING="your_values"
@@ -42,9 +43,10 @@ pip install -r requirements.txt
    ```
 
    # HUGGING_FACE_TOKEN="your_values"
+
    ```bash
    GPLACES_API_KEY="your_values"
-   GOOGLE_RPUTES_API_KEY="your_values"
+   GOOGLE_ROUTES_API_KEY="your_values"
    OPENAI_API_KEY="your_values"
    POSTGRES_PWD="your_values"
    POSTGRES_DB_NAME="your_values"
@@ -54,7 +56,7 @@ pip install -r requirements.txt
    POSTGRES_DRIVER="your_values"
    ```
 
-6. Run the app:
+5. Run the app:
 
 ```bash
 flask run

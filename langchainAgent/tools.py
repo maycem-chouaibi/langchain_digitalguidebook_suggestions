@@ -71,7 +71,7 @@ def create_agent(model: ChatGroq, tools: list, age: int, destination: str, inter
             SystemMessage(content=SYSTEM_PROMPT_1),
             HumanMessage(content=generate_human_prompt(age, destination, interests, gender, language)),
             SystemMessage(content=SYSTEM_PROMPT_2),
-        ],},
+        ]}
         ) 
         if "messages" not in response:
             raise ValueError("Response does not contain 'messages' key")

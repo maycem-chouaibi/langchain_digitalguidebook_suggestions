@@ -7,8 +7,15 @@ requires-python = ">=3.12"
 dependencies = [
     "flask>=3.1.0",
     "flask-cors>=5.0.1",
+    "google>=3.0.0",
+    "google-generativeai>=0.8.4",
+    "langchain-google-genai>=2.0.10",
+    "matplotlib>=3.10.1",
+    "pandas>=2.2.3",
     "pgvector>=0.3.6",
     "psycopg2>=2.9.10",
     "pydantic>=2.10.6",
+    "seaborn>=0.13.2",
     "sqlalchemy>=2.0.38",
+    "supabase>=2.13.0",
 ]

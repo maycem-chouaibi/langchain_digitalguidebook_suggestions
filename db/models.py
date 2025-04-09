@@ -28,6 +28,10 @@ class User(Base):
                 "dob": self.dob,
                 "gender": self.gender
         }
+    
+class AirbnbReviews(Base):
+     __tablename__ = "airbnb_reviews"
+     
 
 def init_db():
     engine = get_engine()

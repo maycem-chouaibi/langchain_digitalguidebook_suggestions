@@ -13,5 +13,4 @@ together
 psycopg2
 typing
 sqlalchemy
-functools
 langchain-google-community[places]
